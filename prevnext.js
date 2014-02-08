@@ -1,6 +1,8 @@
 var prevNext = {
+  baseURL: null,
   makeLinks: function(baseURL, param) {
     var self = this;
+    this.baseURL = baseURL;
     chrome.tabs.query( {'active': true}, function(tabs) {
         var tab = tabs[0];
         var url = tab.url;
@@ -9,7 +11,7 @@ var prevNext = {
         current_id = current_id == null ? "" : parseInt(decodeURIComponent(current_id[1].replace(/\+/g, " ")));
         
         if (current_id) {
-          self.buildPrevNext(tab, baseURL, current_id);
+          self.buildPrevNext(tab, current_id);
         }
         else {
           var p = document.createElement('p');
@@ -18,8 +20,9 @@ var prevNext = {
         }
     });
   },
-  buildPrevNext: function(tab, baseURL, current_id) {
-    var self = this;
+  buildPrevNext: function(tab, current_id) {
+    var baseURL = this.baseURL;
+    var self    = this;
     if ( link = document.getElementById('prev') ) {
       link.parentNode.removeChild(link);
     }
@@ -34,7 +37,7 @@ var prevNext = {
     prev.setAttribute('id',   'prev');
     prev.addEventListener('click', function() {
       chrome.tabs.update(tab.id, { "url":prevLink });
-      self.buildPrevNext(tab, baseURL, current_id - 1);
+      self.buildPrevNext(tab, current_id - 1);
     });
     prev.innerHTML = '[ Previous ]';
  
@@ -43,7 +46,7 @@ var prevNext = {
     next.setAttribute('id',   'next');
     next.addEventListener('click', function() {
       chrome.tabs.update(tab.id, { "url":nextLink });
-      self.buildPrevNext(tab, baseURL, current_id + 1);
+      self.buildPrevNext(tab, current_id + 1);
     });
     next.innerHTML = '[ Next ]';
  
