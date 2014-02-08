@@ -1,17 +1,19 @@
 var prevNext = {
   baseURL: null,
+  activeTab: null,
   makeLinks: function(baseURL, param) {
     var self = this;
     this.baseURL = baseURL;
     chrome.tabs.query( {'active': true}, function(tabs) {
-        var tab = tabs[0];
-        var url = tab.url;
+        var tab        = tabs[0];
+        var url        = tab.url;
+        self.activeTab = tab;
         var regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
         current_id = regex.exec(url);
         current_id = current_id == null ? "" : parseInt(decodeURIComponent(current_id[1].replace(/\+/g, " ")));
         
         if (current_id) {
-          self.buildPrevNext(tab, current_id);
+          self.buildPrevNext(current_id);
         }
         else {
           var p = document.createElement('p');
@@ -20,7 +22,7 @@ var prevNext = {
         }
     });
   },
-  buildPrevNext: function(tab, current_id) {
+  buildPrevNext: function(current_id) {
     var baseURL = this.baseURL;
     var self    = this;
     if ( link = document.getElementById('prev') ) {
@@ -29,29 +31,26 @@ var prevNext = {
     if ( link = document.getElementById('next') ) {
       link.parentNode.removeChild(link);
     }
-    var prevLink = baseURL + (current_id - 1);
-    var nextLink = baseURL + (current_id + 1);
- 
-    var prev = document.createElement('a');
-    prev.setAttribute('href', "#");
-    prev.setAttribute('id',   'prev');
-    prev.addEventListener('click', function() {
-      chrome.tabs.update(tab.id, { "url":prevLink });
-      self.buildPrevNext(tab, current_id - 1);
-    });
-    prev.innerHTML = '[ Previous ]';
- 
-    var next = document.createElement('a');
-    next.setAttribute('href', "#");
-    next.setAttribute('id',   'next');
-    next.addEventListener('click', function() {
-      chrome.tabs.update(tab.id, { "url":nextLink });
-      self.buildPrevNext(tab, current_id + 1);
-    });
-    next.innerHTML = '[ Next ]';
+    var prev = this.addLink('prev', '[ Previous ]', current_id - 1);
+    var next = this.addLink('next', '[ Next ]', current_id + 1);
  
     document.body.appendChild(prev);
     document.body.appendChild(next);
+  },
+  addLink: function(id_name, html, current_id) {
+    var linkTarget = this.baseURL + current_id;
+    var link       = document.createElement('a');
+    var self       = this;
+    var tab        = self.activeTab;
+
+    link.setAttribute('href', "#");
+    link.setAttribute('id',   id_name);
+    link.addEventListener('click', function() {
+      chrome.tabs.update(tab.id, { "url":linkTarget });
+      self.buildPrevNext(current_id);
+    });
+    link.innerHTML = html;
+    return link;
   },
 };
 
