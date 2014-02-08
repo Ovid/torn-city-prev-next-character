@@ -11,12 +11,19 @@ Example of a Chrome extension adding prev/next links to a Web site.
 This is an example of a basic Chrome extension that's a bit more involved than
 [the "Getting Started"
 example](http://developer.chrome.com/extensions/getstarted.html) on the Google
-developer Web site. It's here to show some of my JavaScript skills rather than
-being completely useful.
+developer Web site. It's here to show a clean, useful example of Javascript
+and building a Chrome extension that's better written some of those I've seen
+in the wild. Eventually, I'll write an explanation. It's not that I'm a
+Javascript wizard, but I've been programming for decades and many developers
+who write Javascript don't even both to clean up their formatting, much less
+write properly structured code.
 
 For a more advanced version of my Javascript abilities, see this [3-D rotating
 star map](http://jsfiddle.net/Ovid/ALMZD/1/) using canvas. That shows all the
-stars in a 20 light-year radius around Sol.
+stars in a 20 light-year radius around Sol. That code looks strange in one
+part because it's actually built dynamically with [Template
+Toolkit](http://www.template-toolkit.org/), Perl, and Javascript. I only put
+the "rendered" version on line.
 
 # BACKGROUND
 
@@ -40,8 +47,4 @@ torn.com character page, you'll see this:
     [ Previous ][ Next ]
 
 Clicking on those allows you to quickly move back and forth over player lists
-until you can find a player you want.
-
-There is a touch of cruft in the code that I'll clean up, but for now, it
-shows an example of fetching the URL of the current tab and reloading that
-tab.
+until you can find a player you want to attack.
