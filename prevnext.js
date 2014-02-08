@@ -3,12 +3,12 @@ function prevNext(baseURL, param) {
     this.param   = param;
 
     // methods
-    this.makeLinks      = makeLinks;
-    this._buildPrevNext = _buildPrevNext;
-    this._removeLink    = _removeLink;
+    this.showPrevNextInPopup      = showPrevNextInPopup;
+    this._addLinks      = _addLinks;
     this._addLink       = _addLink;
+    this._removeElement = _removeElement;
 
-    function makeLinks() {
+    function showPrevNextInPopup() {
         var self     = this; // because 'this' in the query won't refer to parent
         chrome.tabs.query( {'active': true}, function(tabs) {
             var tab        = tabs[0];
@@ -19,7 +19,7 @@ function prevNext(baseURL, param) {
             current_id = current_id == null ? "" : parseInt(decodeURIComponent(current_id[1].replace(/\+/g, " ")));
 
             if (current_id) {
-                self._buildPrevNext(current_id);
+                self._addLinks(current_id);
             }
             else {
                 var p = document.createElement('p');
@@ -30,9 +30,9 @@ function prevNext(baseURL, param) {
     }
 
     // build the previous/next links for the current character page
-    function _buildPrevNext(current_id) {
-        this._removeLink('prev');
-        this._removeLink('next');
+    function _addLinks(current_id) {
+        this._removeElement('prev');
+        this._removeElement('next');
         var prev = this._addLink('prev', '[ Previous ]', current_id - 1);
         var next = this._addLink('next', '[ Next ]',     current_id + 1);
 
@@ -40,9 +40,10 @@ function prevNext(baseURL, param) {
         document.body.appendChild(next);
     }
 
-    function _removeLink(id_name) {
-        if ( link = document.getElementById(id_name) ) {
-            link.parentNode.removeChild(link);
+    // given the id of an element, removes that element if it exists
+    function _removeElement(id_name) {
+        if ( element = document.getElementById(id_name) ) {
+            element.parentNode.removeChild(element);
         }
     }
 
@@ -57,7 +58,7 @@ function prevNext(baseURL, param) {
         link.setAttribute('id',   id_name);
         link.addEventListener('click', function() {
             chrome.tabs.update(tab.id, { "url":linkTarget });
-            self._buildPrevNext(current_id);
+            self._addLinks(current_id);
         });
         link.innerHTML = html;
         return link;
@@ -65,6 +66,6 @@ function prevNext(baseURL, param) {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    var makeLinks = new prevNext('http://www.torn.com/profiles.php?XID=', 'XID');
-    makeLinks.makeLinks();
+    var popup = new prevNext('http://www.torn.com/profiles.php?XID=', 'XID');
+    popup.showPrevNextInPopup();
 });
