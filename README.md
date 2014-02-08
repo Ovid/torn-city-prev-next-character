@@ -1,10 +1,7 @@
-# NAME
+# PURPOSE
 
-prev/next in Torn
-
-# SYNOPSIS
-
-Example of a Chrome extension adding prev/next links to a Web site.
+Easily cycle through characters in torn.com. This is an example of a Chrome
+extension adding prev/next links to a Web site.
 
 # DESCRIPTION
 
