@@ -1,6 +1,6 @@
 function prevNext(baseURL, param) {
-    this.baseURL       = baseURL;
-    this.param         = param;
+    this.baseURL = baseURL;
+    this.param   = param;
 
     // methods
     this.makeLinks      = makeLinks;
@@ -19,12 +19,12 @@ function prevNext(baseURL, param) {
             current_id = current_id == null ? "" : parseInt(decodeURIComponent(current_id[1].replace(/\+/g, " ")));
 
             if (current_id) {
-              self._buildPrevNext(current_id);
+                self._buildPrevNext(current_id);
             }
             else {
-              var p = document.createElement('p');
-              p.innerHTML = 'Not on character page';
-              document.body.appendChild(p);
+                var p = document.createElement('p');
+                p.innerHTML = 'Not on character page';
+                document.body.appendChild(p);
             }
         });
     }
@@ -56,8 +56,8 @@ function prevNext(baseURL, param) {
         link.setAttribute('href', "#");
         link.setAttribute('id',   id_name);
         link.addEventListener('click', function() {
-          chrome.tabs.update(tab.id, { "url":linkTarget });
-          self._buildPrevNext(current_id);
+            chrome.tabs.update(tab.id, { "url":linkTarget });
+            self._buildPrevNext(current_id);
         });
         link.innerHTML = html;
         return link;
