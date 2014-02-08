@@ -10,7 +10,7 @@ function prevNext(baseURL, param) {
 
     function showPrevNextInPopup() {
         var self     = this; // because 'this' in the query won't refer to parent
-        chrome.tabs.query( {'active': true}, function(tabs) {
+        chrome.tabs.query( {active: true, currentWindow: true}, function(tabs) {
             var tab        = tabs[0];
             var url        = tab.url;
             self.activeTab = tab;
