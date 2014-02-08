@@ -7,6 +7,7 @@ function prevNext(baseURL, param) {
     this._addLinks      = _addLinks;
     this._addLink       = _addLink;
     this._removeElement = _removeElement;
+    this._getContainer  = _getContainer;
 
     function showPrevNextInPopup() {
         var self     = this; // because 'this' in the query won't refer to parent
@@ -23,8 +24,8 @@ function prevNext(baseURL, param) {
             }
             else {
                 var p = document.createElement('p');
-                p.innerHTML = 'Not on character page';
-                document.body.appendChild(p);
+                p.innerHTML = 'Not on a torn.com character page';
+                self._getContainer().appendChild(p);
             }
         });
     }
@@ -36,11 +37,14 @@ function prevNext(baseURL, param) {
         var prev = this._addLink('prev', '[ Previous ]', current_id - 1);
         var next = this._addLink('next', '[ Next ]',     current_id + 1);
 
-        var container = document.getElementById('links');
+        var container = this._getContainer();
         container.appendChild(prev);
         container.appendChild(next);
     }
 
+    function _getContainer() {
+        return document.getElementById('links');
+    }
     // given the id of an element, removes that element if it exists
     function _removeElement(id_name) {
         if ( element = document.getElementById(id_name) ) {
