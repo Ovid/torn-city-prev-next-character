@@ -7,7 +7,7 @@ function prevNext(baseURL, param) {
     this.showPrevNextInPopup = showPrevNextInPopup;
     this._addLinks           = _addLinks;
     this._createLink         = _createLink;
-    this._removeElement      = _removeElement;
+    this._removeElementById  = _removeElementById;
     this._getContainer       = _getContainer;
 
     function showPrevNextInPopup() {
@@ -33,8 +33,8 @@ function prevNext(baseURL, param) {
 
     // build the previous/next links for the current character page
     function _addLinks(current_id) {
-        this._removeElement('prev');
-        this._removeElement('next');
+        this._removeElementById('prev');
+        this._removeElementById('next');
 
         var prev = this._createLink('prev', '[ Previous ]', current_id - 1);
         var next = this._createLink('next', '[ Next ]',     current_id + 1);
@@ -50,7 +50,7 @@ function prevNext(baseURL, param) {
     }
 
     // given the id of an element, removes that element if it exists
-    function _removeElement(id_name) {
+    function _removeElementById(id_name) {
         if ( element = document.getElementById(id_name) ) {
             element.parentNode.removeChild(element);
         }
