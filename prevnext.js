@@ -36,8 +36,9 @@ function prevNext(baseURL, param) {
         var prev = this._addLink('prev', '[ Previous ]', current_id - 1);
         var next = this._addLink('next', '[ Next ]',     current_id + 1);
 
-        document.body.appendChild(prev);
-        document.body.appendChild(next);
+        var container = document.getElementById('links');
+        container.appendChild(prev);
+        container.appendChild(next);
     }
 
     // given the id of an element, removes that element if it exists

@@ -4,16 +4,17 @@
     <title>Pre/Next Torn links</title>
     <style>
       body {
-        min-width:  357px;
-        overflow-x: hidden;
+        min-width:        357px;
+        overflow-x:       hidden;
+        color:            white;
+        background-color: black;
+        font-family:      Verdana, sans-serif;
       }
-
-      img {
-        margin:         5px;
-        border:         2px solid black;
-        vertical-align: middle;
-        width:          75px;
-        height:         75px;
+      a:link {
+        color: white;
+      }
+      a:hover {
+        color: red;
       }
     </style>
 
@@ -26,5 +27,9 @@
     <script src="prevnext.js"></script>
   </head>
   <body>
+    <fieldset>
+        <legend>Torn.com Characters</legend>
+        <p id="links"></p>
+    </fieldset>
   </body>
 </html>
