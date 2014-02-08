@@ -14,6 +14,10 @@ example](http://developer.chrome.com/extensions/getstarted.html) on the Google
 developer Web site. It's here to show some of my JavaScript skills rather than
 being completely useful.
 
+For a more advanced version of my Javascript abilities, see this [3-D rotating
+star map](http://jsfiddle.net/Ovid/ALMZD/1/) using canvas. That shows all the
+stars in a 20 light-year radius around Sol.
+
 # BACKGROUND
 
 If you [sign up for a free account with the online RPG
