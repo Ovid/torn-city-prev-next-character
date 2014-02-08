@@ -1,14 +1,19 @@
 var prevNext = {
-  baseURL: null,
+  baseURL:   null,
   activeTab: null,
-  makeLinks: function(baseURL, param) {
-    var self = this;
+  param:     null,
+  create: function(baseURL,param) {
     this.baseURL = baseURL;
+    this.param   = param;
+    return this;
+  },
+  makeLinks: function() {
+    var self     = this; // because 'this' in the query won't refer to parent
     chrome.tabs.query( {'active': true}, function(tabs) {
         var tab        = tabs[0];
         var url        = tab.url;
         self.activeTab = tab;
-        var regex = new RegExp("[\\?&]" + param + "=([^&#]*)");
+        var regex = new RegExp("[\\?&]" + self.param + "=([^&#]*)");
         current_id = regex.exec(url);
         current_id = current_id == null ? "" : parseInt(decodeURIComponent(current_id[1].replace(/\+/g, " ")));
         
@@ -22,6 +27,7 @@ var prevNext = {
         }
     });
   },
+  // build the previous/next links for the current character page
   buildPrevNext: function(current_id) {
     var baseURL = this.baseURL;
     var self    = this;
@@ -37,6 +43,7 @@ var prevNext = {
     document.body.appendChild(prev);
     document.body.appendChild(next);
   },
+  // build an individual [previous] or [next] link
   addLink: function(id_name, html, current_id) {
     var linkTarget = this.baseURL + current_id;
     var link       = document.createElement('a');
@@ -55,5 +62,6 @@ var prevNext = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  prevNext.makeLinks('http://www.torn.com/profiles.php?XID=', 'XID');
+  var makeLinks = prevNext.create('http://www.torn.com/profiles.php?XID=', 'XID');
+  makeLinks.makeLinks();
 });
